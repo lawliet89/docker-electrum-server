@@ -1,0 +1,29 @@
+version: "2.0"
+services:
+    bitcoind:
+      image: kylemanna/bitcoind
+      volumes:
+        - ./bitcoin.conf:/config/bitcoin.conf
+        - bitcoind-data:/bitcoin/data
+      command: ["-conf=/config/bitcoin.conf"]
+      cpu_quota: 50000
+      mem_limit: 500m
+    electrumx:
+      image: lukechilds/electrumx:v1.2.1
+      environment: # see https://github.com/kyuupichan/electrumx/blob/master/docs/ENVIRONMENT.rst
+        COIN: BitcoinSegwit
+        DB_DIRECTORY: /data
+        DAEMON_URL: electrum:electrum@bitcoind
+        HOST: 0.0.0.0
+        PEER_DISCOVERY: self
+        PEER_ANNOUNCE: ""
+        CACHE_MB: 300
+      volumes:
+        - electrumx-data:/data
+      ports:
+        - 1337:50002
+      cpu_quota: 50000
+      mem_limit: 500m
+volumes:
+  bitcoind-data: {}
+  electrumx-data: {}
