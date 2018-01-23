@@ -4,7 +4,7 @@ services:
       image: kylemanna/bitcoind
       volumes:
         - ./bitcoin.conf:/config/bitcoin.conf
-        - bitcoind-data:/bitcoin/data
+        - bitcoind-data:/bitcoin
       command: ["-conf=/config/bitcoin.conf"]
       cpu_quota: 50000
       mem_limit: 500m
